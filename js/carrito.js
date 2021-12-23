@@ -73,6 +73,8 @@
     }
 
     this.eliminarProductoLocalStorage(productoID);
+
+    this.calcularTotal();
   }
 
   vaciarCarrito(e) {
@@ -191,5 +193,28 @@
 
       listaCompra.appendChild(row);
     });
+  }
+
+  calcularTotal() {
+    let productoLS;
+
+    let total = 0,
+      subtotal = 0,
+      iva = 0;
+
+    productoLS = this.obtenerProductosLocalStorage();
+
+    for (let i = 0; i < productoLS.length; i++) {
+      let element = Number(productoLS[i].precio * productoLS[i].cantidad);
+
+      total = total + element;
+    }
+    iva = parseFloat(total * 0.18).toFixed(2);
+
+    subtotal = parseFloat(total - iva).toFixed(2);
+
+    document.getElementById("subtotal").innerHTML = "$ " + subtotal;
+    document.getElementById("iva").innerHTML = "$ " + iva;
+    document.getElementById("total").innerHTML = "$ " + total;
   }
 }
